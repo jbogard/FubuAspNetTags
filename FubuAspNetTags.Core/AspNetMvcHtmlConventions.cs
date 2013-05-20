@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -29,20 +30,21 @@ namespace FubuAspNetTags.Core
                 return drop;
             });
 
-            //Editors.Always.Modify(AddElementName);
+            Editors.Always.ModifyWith(AddElementName);
 
             //Editors.Always.BuildBy(TagActionExpression.BuildTextbox);
-            Displays.Always.BuildBy(req => new HtmlTag("span").Text(req.StringValue()));
-            Labels.Always.BuildBy(req => new HtmlTag("span").Text(req.Accessor.Name));
+            //Displays.Always.BuildBy(req => new HtmlTag("span").Text(req.StringValue()));
+            //Labels.Always.BuildBy(req => new HtmlTag("span").Text(req.Accessor.Name));
         }
 
         private static Regex idRegex = new Regex(@"[\.\[\]]");
-        public static void AddElementName(ElementRequest request, HtmlTag tag)
+
+        public static void AddElementName(ElementRequest request)
         {
-            if (tag.IsInputElement())
+            if (request.OriginalTag.IsInputElement())
             {
-                tag.Attr("name", request.ElementId);
-                tag.Attr("id", idRegex.Replace(request.ElementId, "_"));
+                //request.CurrentTag.Attr("name", request.ElementId);
+                request.CurrentTag.Attr("id", idRegex.Replace(request.ElementId, "_"));
             }
         }
     }
