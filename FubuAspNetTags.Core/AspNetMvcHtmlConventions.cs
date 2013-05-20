@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using FubuMVC.Core.UI;
-using FubuMVC.Core.UI.Configuration;
-using FubuMVC.Core.UI.Tags;
+using FubuMVC.Core.UI.Elements;
 using HtmlTags;
 
 namespace FubuAspNetTags.Core
@@ -30,9 +29,9 @@ namespace FubuAspNetTags.Core
                 return drop;
             });
 
-            Editors.Always.Modify(AddElementName);
+            //Editors.Always.Modify(AddElementName);
 
-            Editors.Always.BuildBy(TagActionExpression.BuildTextbox);
+            //Editors.Always.BuildBy(TagActionExpression.BuildTextbox);
             Displays.Always.BuildBy(req => new HtmlTag("span").Text(req.StringValue()));
             Labels.Always.BuildBy(req => new HtmlTag("span").Text(req.Accessor.Name));
         }

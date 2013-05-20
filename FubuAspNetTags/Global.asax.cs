@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using FubuAspNetTags.Core;
 using FubuAspNetTags.Core.StructureMap;
-using FubuCore;
+using FubuAspNetTags.DependencyResolution;
 using FubuMVC.Core.UI;
-using FubuMVC.Core.UI.Configuration;
-using FubuMVC.Core.UI.Tags;
 using FubuMVC.StructureMap;
 using Microsoft.Practices.ServiceLocation;
 using StructureMap;
-using StructureMap.Configuration.DSL;
 
 namespace FubuAspNetTags
 {
@@ -45,13 +38,7 @@ namespace FubuAspNetTags
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-
-            ServiceLocator.SetLocatorProvider(() => new StructureMapServiceLocator(ObjectFactory.Container));
-
-
-            ObjectFactory.Initialize(x => x.AddRegistry(new AspNetMvcFubuRegistry(new MoreConvs())));
         }
-      
     }
 
     public class MoreConvs : HtmlConventionRegistry

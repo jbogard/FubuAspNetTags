@@ -1,5 +1,5 @@
 using System;
-using FubuMVC.Core.UI.Configuration;
+using FubuMVC.Core.UI.Elements;
 
 namespace FubuAspNetTags.Core
 {
