@@ -25,6 +25,7 @@ namespace FubuAspNetTags.Core.StructureMap
             registries.Select(r => r.Library).Each(library => htmlConventionLibrary.Import(library));
             htmlConventionLibrary.Import(new DefaultAspNetMvcHtmlConventions().Library);
             htmlConventionLibrary.Import(new DefaultHtmlConventions().Library);
+            For<HtmlConventionLibrary>().Use(htmlConventionLibrary);
 
             Scan(x =>
             {
@@ -35,9 +36,6 @@ namespace FubuAspNetTags.Core.StructureMap
                 x.WithDefaultConventions();
                 x.LookForRegistries();
             });
-            //For<IFubuRequest>().Use<FubuRequest>();
-            //For<ITypeResolver>().Use<TypeResolver>();
-            //For<ITagGeneratorFactory>().Use<TagGeneratorFactory>();
 
             For<IValueSource>().AddInstances(c =>
             {
@@ -48,12 +46,10 @@ namespace FubuAspNetTags.Core.StructureMap
                 c.Type<ElementRequestActivator>();
                 c.Type<ServiceLocatorTagRequestActivator>();
             });
-            For<HttpRequestBase>().HybridHttpOrThreadLocalScoped().Use(() => new HttpRequestWrapper(HttpContext.Current.Request));
-            For<IBindingLogger>().Use<NulloBindingLogger>();
+            For<HttpRequestBase>().Use(c => c.GetInstance<HttpRequestWrapper>());
             For<ITypeResolverStrategy>().Use<TypeResolver.DefaultStrategy>();
-            For<IElementNamingConvention>().Use<AspNetMvcElementNamingConvention>();
+            //For<IElementNamingConvention>().Use<AspNetMvcElementNamingConvention>();
             For<IElementNamingConvention>().Use<DefaultElementNamingConvention>();
-            For<HtmlConventionLibrary>().Use(htmlConventionLibrary);
             For(typeof(ITagGenerator<>)).Use(typeof(TagGenerator<>));
             For(typeof(IElementGenerator<>)).Use(typeof(ElementGenerator<>));
             For<IServiceLocator>().Use(() => ServiceLocator.Current);
